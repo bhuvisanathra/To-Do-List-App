@@ -24,6 +24,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         //Passing The Runnable And Delay Time
-        handle.postDelayed(run, 4000);
+        handle.postDelayed(run, 2000);
     }
 }

@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         //It Will Upgrade the table and send it to On Create
-        db.execSQL("CREATE TABLE IF NOT EXISTS "+TABLE_NAME);
+        db.execSQL("DROP TABLE IF  EXISTS "+TABLE_NAME);
         onCreate(db);
     }
 

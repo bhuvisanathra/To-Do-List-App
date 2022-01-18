@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.to_do_list.AddNewTask;
 import com.example.to_do_list.MainActivity;
 import com.example.to_do_list.Model.ToDoModel;
 import com.example.to_do_list.R;
@@ -22,11 +23,11 @@ public class ToDoAdaptor extends RecyclerView.Adapter<ToDoAdaptor.MyViewHolder> 
 
     private List<ToDoModel> mList;
     private final MainActivity ACTIVITY;
-    private final DatabaseHelper MYDB;
+    private final DatabaseHelper myDB;
 
     public ToDoAdaptor(DatabaseHelper myDB,MainActivity ACTIVITY){
         this.ACTIVITY = ACTIVITY;
-        this.MYDB =myDB;
+        this.myDB =myDB;
     }
 
 
@@ -51,9 +52,9 @@ public class ToDoAdaptor extends RecyclerView.Adapter<ToDoAdaptor.MyViewHolder> 
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
-                    MYDB.updateStatus(item.getId(),1);
+                    myDB.updateStatus(item.getId(),1);
                 }else{
-                    MYDB.updateStatus(item.getId(),0);
+                    myDB.updateStatus(item.getId(),0);
                 }
             }
         });
@@ -82,11 +83,11 @@ public class ToDoAdaptor extends RecyclerView.Adapter<ToDoAdaptor.MyViewHolder> 
         //Created Instance Of TodoModel
         ToDoModel item=mList.get(position);
         //Called Deletetask From ToDoModel
-        MYDB.deleteTask(item.getId());
+        myDB.deleteTask(item.getId());
         //Removed
         mList.remove(position);
         //Notified That Data Is Changed
-        notifyItemChanged(position);
+        notifyItemRemoved(position);
     }
 
     //To Edit Item
@@ -97,6 +98,13 @@ public class ToDoAdaptor extends RecyclerView.Adapter<ToDoAdaptor.MyViewHolder> 
         Bundle bundle=new Bundle();
         bundle.putInt("id",item.getId());
         bundle.putString("task", item.getTask());
+
+        //To Pass THe Data From Activity To Fragment(Sub Activity)
+        //passing The Activity From Parent Activity To Sub Avtivity
+        //Like Editing Task
+        AddNewTask task = new AddNewTask();
+        task.setArguments(bundle);
+        task.show(ACTIVITY.getSupportFragmentManager(),task.getTag());
     }
 
 
